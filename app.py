@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import requests
 import os
 import msg_sender
+import time
 
 app = Flask(__name__)
 
@@ -38,4 +39,19 @@ def send_msg():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=True)
+
+    msg = msg_sender
+    SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN')
+    SLACK_SEARCH_TOKEN = os.getenv('SLACK_SEARCH_TOKEN')
+    SLACK_GENERAL_ID = os.getenv('SLACK_GENERAL_ID')
+
+    seacher = msg.SlackMsgSearcher(SLACK_SEARCH_TOKEN)
+    sender = msg.SlackMsgSender(SLACK_BOT_TOKEN, 'wizard')
+    while True:
+        if seacher.search_msg('\너굴맨', SLACK_GENERAL_ID):
+            sender.send_msg('조너굴 바보', 'general')
+        # result_set = seacher.search_msg2('\너굴맨', slackgene)
+        # if result_set:
+        #     for result in result_set:
+        #         sender.send_msg('조너굴 바보', result['channel'])
