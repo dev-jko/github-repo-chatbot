@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import requests
 import os
-import msg_sender
+import msg_handler
 import time
 
 app = Flask(__name__)
@@ -22,7 +22,7 @@ def send_msg():
     if request.method == 'GET':
         return render_template('msg.html')
     else:
-        msg = msg_sender
+        msg = msg_handler
         if request.form['messenger'] == 'slack':
             SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN')
             print(SLACK_BOT_TOKEN)
@@ -41,7 +41,7 @@ def send_msg():
 if __name__ == '__main__':
     # app.run(debug=True)
 
-    msg = msg_sender
+    msg = msg_handler
     SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN')
     SLACK_SEARCH_TOKEN = os.getenv('SLACK_SEARCH_TOKEN')
     SLACK_GENERAL_ID = os.getenv('SLACK_GENERAL_ID')
