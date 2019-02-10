@@ -45,13 +45,20 @@ if __name__ == '__main__':
     SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN')
     SLACK_SEARCH_TOKEN = os.getenv('SLACK_SEARCH_TOKEN')
     SLACK_GENERAL_ID = os.getenv('SLACK_GENERAL_ID')
+    SLACK_WIZARD_ID = os.getenv('SLACK_WIZARD_ID')
 
     seacher = msg.SlackMsgSearcher(SLACK_SEARCH_TOKEN)
     sender = msg.SlackMsgSender(SLACK_BOT_TOKEN, 'wizard')
+
+    COMMANDS = {'\너굴맨', '\점심', '\날씨'}
+
     while True:
-        if seacher.search_msg('\너굴맨', SLACK_GENERAL_ID):
-            sender.send_msg('조너굴 바보', 'general')
-        # result_set = seacher.search_msg2('\너굴맨', slackgene)
-        # if result_set:
-        #     for result in result_set:
-        #         sender.send_msg('조너굴 바보', result['channel'])
+        # commands = seacher.search_msg(COMMANDS, SLACK_GENERAL_ID)
+        commands = seacher.search_msg(COMMANDS, SLACK_WIZARD_ID, is_private=True)
+        for command in commands:
+            if command == '\너굴맨':
+                sender.send_msg('조너굴 바보', 'general')
+            if command == '\점심':
+                sender.send_msg('점심 메뉴')
+            if command == '\날씨':
+                sender.send_msg('날씨')

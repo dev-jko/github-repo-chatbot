@@ -8,19 +8,10 @@ class MsgSearcher:
     def __init__(self, bot_token):
         self.bot_token = bot_token
         self.timestamp = time.time()
-        # self.timestamp = datetime.datetime.now()
-
-
-# class TelegramMsgSearcher(MsgSearcher):
-#     def read_msg(self, msg):
-#         if receive_user is None:
-#             receive_user = self.receive_user
-#         url = f'https://api.telegram.org/bot{self.bot_token}/sendMessage?chat_id={receive_user}&text={msg}'
-#         response = requests.post(url).json()
-#         return response['ok']
 
 
 class SlackMsgSearcher(MsgSearcher):
+    # use slack search api
     def search_msg2(self, msg):
         url = f'https://slack.com/api/search.messages?token={self.bot_token}&query={msg}'
         response = requests.get(url).json()
@@ -42,13 +33,16 @@ class SlackMsgSearcher(MsgSearcher):
         else:
             return None
 
-    def search_msg(self, msg_set, channel_id):
+    # use slack channel history api
+    def search_msg(self, msg_set, channel_id, is_private=False):
         url = f'https://slack.com/api/channels.history?token={self.bot_token}&channel={channel_id}&count=5'
+        if is_private:
+            url = f'https://slack.com/api/groups.history?token={self.bot_token}&channel={channel_id}&count=5'
         response = requests.get(url).json()
+        result = set({})
         if response['ok']:
             messages = response['messages']
             temp_timestamp = self.timestamp
-            result = set({})
             for message in messages:
                 message_time = float(message['ts'])
                 if message_time > self.timestamp:
@@ -58,8 +52,7 @@ class SlackMsgSearcher(MsgSearcher):
                             temp_timestamp = message_time
                             self.timestamp = temp_timestamp
             self.timestamp = temp_timestamp
-            return result
-        return None
+        return result
 
 
 class MsgSender:
