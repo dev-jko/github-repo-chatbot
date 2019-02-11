@@ -30,7 +30,7 @@ while True:
             sender.send_msg('조너굴 바보', 'general')
         if command == '\점심':
             menu = project_ssafy.lunch_menu(
-                SSAFY_ID, SSAFY_PW, '/usr/lib/chromium-browser/chromedriver')
+                SSAFY_ID, SSAFY_PW, '/usr/bin/chromedriver')
             sender.send_msg(menu)
         if command == '\날씨':
             weather = pm_prj.temp_and_pm_data('강남구')
