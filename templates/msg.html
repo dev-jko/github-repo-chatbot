@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>msg 보내기</h1>
+
+<form action="/send_msg" method="post">
+    <input type="radio" name="messenger" value="slack" id="slack">
+    <label for="slack">Slack</label><br>
+    <input type="radio" name="messenger" value="telegram" id="telegram">
+    <label for="telegram">Telegram</label><br>
+    <input type="text" name="msg" placeholder="메세지">
+    <input type="submit" value="보내기">
+</form>
+
+{% if ok %}
+<h2>보내기 <strong>{{ ok }}</strong></h2>
+{% endif %}
+
+
+{% endblock %}
