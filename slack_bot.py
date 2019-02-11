@@ -1,9 +1,9 @@
 import requests
 import os
-import msg_handler
+from msg_handler import msg_handler
 import time
 from datetime import datetime
-from weather import pm_prj
+from weather import pm_prj, temper_prj
 from ssafy_menu import project_ssafy
 
 msg = msg_handler

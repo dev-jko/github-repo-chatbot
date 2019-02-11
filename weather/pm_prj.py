@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from temper_prj import get_weather
+from .temper_prj import get_weather
 import os
 
 
