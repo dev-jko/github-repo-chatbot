@@ -4,6 +4,7 @@ import os
 import msg_handler
 import time
 from datetime import datetime
+import pm_prj
 
 app = Flask(__name__)
 
@@ -39,9 +40,16 @@ def send_msg():
         return render_template('msg.html', ok=ok)
 
 
-if __name__ == '__main__':
-    # app.run(debug=True)
+@app.route("/payload", methods=['POST'])
+def payload():
+    data = request.get_json()
+    header_data = request.headers.get('X-GitHub-Event')
+    msg = header_data+'가 일어났습니다.'
+    sender.send_msg(msg, 'wizard')
+    return msg
 
+
+if __name__ == '__main__':
     msg = msg_handler
     SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN')
     SLACK_SEARCH_TOKEN = os.getenv('SLACK_SEARCH_TOKEN')
@@ -51,18 +59,4 @@ if __name__ == '__main__':
     seacher = msg.SlackMsgSearcher(SLACK_SEARCH_TOKEN)
     sender = msg.SlackMsgSender(SLACK_BOT_TOKEN, 'wizard')
 
-    COMMANDS = {'\너굴맨', '\점심', '\날씨'}
-
-    while True:
-        # commands = seacher.search_msg(COMMANDS, SLACK_GENERAL_ID)
-        commands = seacher.search_msg(
-            COMMANDS, SLACK_WIZARD_ID, is_private=True)
-        print(f'{datetime.now()} - find - {commands}')
-        for command in commands:
-            if command == '\너굴맨':
-                sender.send_msg('조너굴 바보', 'general')
-            if command == '\점심':
-                sender.send_msg('점심 메뉴')
-            if command == '\날씨':
-                sender.send_msg('날씨')
-        time.sleep(1)
+    app.run(host='0.0.0.0', port=5000)
