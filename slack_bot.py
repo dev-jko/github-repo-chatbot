@@ -3,8 +3,8 @@ import os
 import msg_handler
 import time
 from datetime import datetime
-import pm_prj
-import project_ssafy
+from weather import pm_prj
+from ssafy_menu import project_ssafy
 
 msg = msg_handler
 SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN')
