@@ -4,7 +4,7 @@ import os
 import msg_handler
 import time
 from datetime import datetime
-import pm_prj
+from weather import pm_prj, temper_prj
 
 app = Flask(__name__)
 
