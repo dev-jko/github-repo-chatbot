@@ -3,6 +3,7 @@ import requests
 import os
 import msg_handler
 import time
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -54,7 +55,9 @@ if __name__ == '__main__':
 
     while True:
         # commands = seacher.search_msg(COMMANDS, SLACK_GENERAL_ID)
-        commands = seacher.search_msg(COMMANDS, SLACK_WIZARD_ID, is_private=True)
+        commands = seacher.search_msg(
+            COMMANDS, SLACK_WIZARD_ID, is_private=True)
+        print(f'{datetime.now()} - find - {commands}')
         for command in commands:
             if command == '\너굴맨':
                 sender.send_msg('조너굴 바보', 'general')
@@ -62,3 +65,4 @@ if __name__ == '__main__':
                 sender.send_msg('점심 메뉴')
             if command == '\날씨':
                 sender.send_msg('날씨')
+        time.sleep(1)
