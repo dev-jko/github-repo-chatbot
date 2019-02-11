@@ -2,16 +2,18 @@
 from flask import Flask, jsonify, render_template, redirect, request, url_for #sudo pip3 install flask #export FLASK_APP=app.py #flask run -h 0.0.0.0 -p 8080   #export FLASK_ENV=development #python3 app.py
 import requests
 import random
+import os 
 
 app = Flask(__name__) 
+MY_CHAT_ID = os.getenv("chat_id")
+BOT_TOKEN = os.getenv("bot_token")
 
 @app.route("/webhook", methods=['POST']) #index
 def index():
     data = request.get_json()
     header_data = request.headers.get('X-GitHub-Event')
     print(header_data)
-    MY_CHAT_ID = '692438053' # 대문자는 상수
-    BOT_TOKEN = '736162634:AAG4mRZYkCxNcqg9ocIoCpGZCX4wJ_-mVbQ'
+
     MSG = header_data+'가 일어났습니다.'
     url = 'https://api.hphk.io/telegram/bot{}/sendMessage?chat_id={}&text={}'.format(BOT_TOKEN, MY_CHAT_ID, MSG)
     response = requests.get(url)
