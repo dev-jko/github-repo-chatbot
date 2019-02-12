@@ -50,12 +50,12 @@ def payload():
 
 
 if __name__ == '__main__':
-    msg = msg_handler
     SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN')
     SLACK_SEARCH_TOKEN = os.getenv('SLACK_SEARCH_TOKEN')
     SLACK_GENERAL_ID = os.getenv('SLACK_GENERAL_ID')
     SLACK_WIZARD_ID = os.getenv('SLACK_WIZARD_ID')
 
+    msg = msg_handler
     seacher = msg.SlackMsgSearcher(SLACK_SEARCH_TOKEN)
     sender = msg.SlackMsgSender(SLACK_BOT_TOKEN, 'wizard')
 
